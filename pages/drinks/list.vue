@@ -1,60 +1,75 @@
 <template>
   <div>
-    <v-btn
-      text
-      v-for="category in drinkCategories"
-      :key="category.value"
-      @click="getDrinksByCategory(category.value)"
-    >
-      {{  category.text }}
-    </v-btn>
-    
-    <div class="d-flex">
-      <v-row
-        v-if="!loading && listedDrinks?.length > 0"
-        class="mx-auto"
-        justify="center"
+    <div class="d-flex justify-center pb-1 mb-1">
+      <v-btn
+        v-for="category in drinkCategories"
+        :key="category.value"
+        text
+        class="mx-1"
+        @click="getDrinksByCategory(category.value)"
       >
+        {{  category.text }}
+      </v-btn>
+    </div>
+  
+    <v-row
+      v-if="!loading && listedDrinks?.length > 0"
+      justify="center"
+      class="drink-list"
+      no-gutters
+    >
+      <v-col
+        v-for="drink in listedDrinks"
+        :key="drink.idDrink"
+        lg="2"
+        md="3"
+        xs="12"
+        class="mt-4 mx-2"
+      >
+        <v-card
+          class="mx-auto"
+          max-width="300"
+        >
+          <v-card-title>
+            {{ drink.strDrink }}
+          </v-card-title>
+          <v-card-text>
+            <v-img
+              :src="drink.strDrinkThumb"
+              lazy-src="https://www.oncrawl.com/wp-content/uploads/2019/04/A-lazy-loading-primer-for-crawlability-indexing-success250px.png"
+              aspect-ratio="1/1"
+              class="mx-auto"
+              width="250"
+              />
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <div v-else-if="loading">
+      <v-row justify="center">
         <v-col
-          v-for="drink in listedDrinks"
-          :key="drink.idDrink"
+          v-for="i in 9"
+          :key="i"
           lg="2"
           md="3"
           xs="12"
           class="mt-4 mx-2"
         >
-          <v-card
-            class="mx-auto"
-            max-width="300"
-          >
-            <v-card-title>
-              {{ drink.strDrink }}
-            </v-card-title>
-            <v-card-text>
-              <v-img
-                :src="drink.strDrinkThumb"
-                lazy-src="https://www.oncrawl.com/wp-content/uploads/2019/04/A-lazy-loading-primer-for-crawlability-indexing-success250px.png"
-                aspect-ratio="1/1"
-                class="mx-auto"
-                width="250"
-                />
-            </v-card-text>
-          </v-card>
+          <VSkeletonLoader height="300"/>
         </v-col>
       </v-row>
-      <div v-else-if="loading">
-        loading :D
-      </div>
-      <div v-else>
-        Não encontrou nada
-      </div>
+    </div>
+    <div class="d-flex" v-else>
+      <div class="mx-auto"> No drinks were found :( </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import CocktailAPI from '~/api/CocktailsBD'
+import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
+
 
 declare interface Drink {
     strDrink: string,
@@ -63,9 +78,13 @@ declare interface Drink {
   }
 
 export default {
+  components: {
+    VSkeletonLoader
+  },
+
   setup () {
     const listedDrinks = ref(Array<Drink>)
-    const loading = ref(false)
+    const loading = ref(true)
 
     const drinkCategories = ref([
       { text: 'Ordinary Drink', value: 'Ordinary_Drink' },
@@ -79,45 +98,43 @@ export default {
       { text: 'Beer', value: 'Beer' },
       { text: 'Soft Drink', value: 'Soft_Drink' },
       { text: 'Others', value: 'Other_Unknown' },
-
     ])
-
-    const getAllDrinksByFirstLetter = async () => {
-      try {
-        loading.value = true
-        const resp = await CocktailAPI.getAllAsc()
-        listedDrinks.value = resp.data.drinks
-        loading.value = false
-      } catch (error) {
-        console.error('Error trying to list the drinks:', error)
-        throw error
-      }
-    }
-
+  
     const getDrinksByCategory = async (category: string) => {
       try {
         loading.value = true
         const resp = await CocktailAPI.searchByCategory(category)
-        console.log(resp.data.drinks)
+
         listedDrinks.value = resp.data.drinks
-        loading.value = false
       } catch (error) {
         console.error('Error trying to list the drinks:', error)
         throw error
+      } finally {
+          loading.value = false
       }
     }
+
+    onMounted(() => {
+      getDrinksByCategory(drinkCategories.value[0].value)
+    })
 
     return {
       loading,
       listedDrinks,
       drinkCategories,
-      getAllDrinksByFirstLetter,
       getDrinksByCategory
     }
   }
 }
 </script>
 
-<style>
+<style lang="sass" scoped>
+:deep(  .v-skeleton-loader__bone.v-skeleton-loader__image)
+  height: 100% !important
 
+.drink-list
+  max-height: calc(100vh - 108px)
+  padding-bottom: 10px
+  position: relative
+  overflow: scroll
 </style>

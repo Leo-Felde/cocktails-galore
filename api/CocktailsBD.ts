@@ -12,7 +12,7 @@ interface Drink {
 interface DrinkAPI {
   searchByName(name: string): Promise<AxiosResponse<Drink[]>>
   searchByCategory(category: string): Promise<AxiosResponse<Drink[]>>
-  getAllAsc(): Promise<AxiosResponse<Drink[]>>
+  getAllAlcoholic(): Promise<AxiosResponse<Drink[]>>
   getRandomCocktail(): Promise<AxiosResponse<Drink[]>>
 }
 
@@ -25,8 +25,8 @@ const methods: DrinkAPI = {
     return api.get<Drink[]>(`filter.php?c=${category}`)
   },
 
-  async getAllAsc() {
-    return api.get<Drink[]>(`search.php?f=a`)
+  async getAllAlcoholic() {
+    return api.get<Drink[]>(`filter.php?a=Alcoholic`)
   },
 
   async getRandomCocktail() {
