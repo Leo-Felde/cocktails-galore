@@ -1,6 +1,9 @@
 <template>
   <div class="d-flex ma-auto" style="height: 100%">
-    <v-card class="d-flex flex-column ma-auto recipe-card">
+    <v-card
+      class="d-flex flex-column ma-auto"
+      :class="`recipe-card${mobile ? '-mobile' : ''}`"
+    >
       <v-card-title>
         <v-btn
           icon="mdi-arrow-left"
@@ -146,6 +149,12 @@ export default {
 .recipe-card
   max-width: 880px
   width: 100%
+  &-mobile
+    max-width: 100vh
+    height: 100%
+    max-width: 100vw
+    width: 100%
+    border-radius: 0
 
 .instructions
   border-top: 1px solid #84848440
