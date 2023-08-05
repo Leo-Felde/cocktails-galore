@@ -40,23 +40,24 @@ interface Drink {
 export default {
   name: 'DrinkOverview',
 
-
   props: {
-    data: { type: Object, required: true }
+    data: { type: Object as () => Drink, required: true }
   },
 
-  setup (props) {
+  emits: ['toggleFavourite'],
+
+  setup (props: { data: Drink }, context) {
     const drink = computed(() => {
       return props.data
     })
 
     const favourite = computed(() => {
       return false
-      // buscar na store?
+      // buscar na store pelo id?
     })
 
     const toggleFavourite = () => {
-      // todo
+      context.emit('toggleFavourite', drink.value.idDrink)
     }
 
     return {
@@ -65,8 +66,8 @@ export default {
       toggleFavourite
     }
   }
-
 }
+
 </script>
 
 <style>
