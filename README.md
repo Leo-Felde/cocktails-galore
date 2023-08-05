@@ -45,9 +45,12 @@ npx nuxi preview
 
 ## Decisões e outros comentários
 ### vuetify
-O vuetify é um framework de UI para o Vue, foi utilizado para facilitar o desenvolvimento em diversos aspects, principalmente na velocidade e responsividade.\
+O vuetify é um framework de UI para o Vue, foi utilizado para facilitar o desenvolvimento em diversos aspectos, principalmente na velocidade e responsividade.
 ### Listagem
 O endpoint de listagem do TheCocktailDB é bastante limitado, retornando apenas o id, nome e imagem. Portanto, a fim de utilizar o máximo das informações e inspirado em outros sites do tipo, a listagem foi realizada dando foco na imagem da bebida.
+
+### Visualização
+Apesar de que seria mais fácil abrir um diálogo contendo o componente de detalhes da bebida, achei interessante utilizar o roteamento do nuxt de alguma forma, portanto fiz o componente utilizar a paginação dinâmica com o id na url.
 
 ### Problemas
 Foram notados aluguns problemas nos endpoints.\

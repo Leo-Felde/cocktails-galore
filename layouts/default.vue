@@ -18,6 +18,7 @@
               <span
                 v-bind="props"
                 :class="mobile ? 'mr-2': 'mr-4'"
+                class="favourites"
               >
                 <v-icon size="small"> mdi-star </v-icon>
                 favourites
@@ -105,4 +106,7 @@ export default {
 .search
   width: 300px !important
   margin-left: 10px
+
+.favourites
+  cursor: pointer
 </style>
