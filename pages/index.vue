@@ -32,7 +32,11 @@
         xs="12"
         class="mt-4 mx-2"
       >
-        <DrinkOverview :data="drink" @click="viewDetails"/>
+        <DrinkOverview
+          :data="drink"
+          @click="viewDetails"
+          @toggle-favourite="toggleFavourite"
+        />
       </v-col>
     </v-row>
     <div v-else-if="loading">
@@ -65,12 +69,6 @@ import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 import CocktailAPI from '~/api/CocktailsBD'
 
-interface Drink {
-    strDrink: string,
-    strDrinkThumb: string,
-    idDrink: string
-  }
-
 export default {
   name: 'Index',
 
@@ -82,6 +80,7 @@ export default {
     const listedDrinks = ref(Array<Drink>)
     const loading = ref(true)
     const tab = ref('Ordinary_Drink')
+    const favouriteDrinks = useFavouriteDrinks()
 
     const drinkCategories = ref([
       { text: 'Ordinary Drink', value: 'Ordinary_Drink' },
@@ -115,6 +114,16 @@ export default {
       }
     }
 
+    const toggleFavourite = (drink: Drink) => {
+      const drinkIndex =favouriteDrinks.value.findIndex(d => d.idDrink === drink.idDrink)
+      if (drinkIndex >= 0) {
+        favouriteDrinks.value.splice(drinkIndex, 1)
+      } else {
+        favouriteDrinks.value.push(drink)
+      }
+      console.log(favouriteDrinks.value)
+    }
+
     const viewDetails = (id: string) => {
       navigateTo({path: `/drink-${id}`})
     }
@@ -125,6 +134,7 @@ export default {
       drinkCategories,
       tab,
       getDrinksByCategory,
+      toggleFavourite,
       viewDetails
     }
   }

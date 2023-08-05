@@ -29,13 +29,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed } from 'vue'
-
-interface Drink {
-    strDrink: string,
-    strDrinkThumb: string,
-    idDrink: string
-  }
+import { ref, computed, onMounted } from 'vue'
 
 export default {
   name: 'DrinkOverview',
@@ -47,18 +41,25 @@ export default {
   emits: ['toggleFavourite', 'click'],
 
   setup (props: { data: Drink }, context) {
+    const favouriteDrinks = useFavouriteDrinks()
+    const favourite = ref(false)
+
     const drink = computed(() => {
       return props.data
     })
 
-    const favourite = computed(() => {
-      return false
-      // buscar na store pelo id?
-    })
-
     const toggleFavourite = () => {
-      context.emit('toggleFavourite', drink.value.idDrink)
+      context.emit('toggleFavourite', drink.value)
+      favourite.value = !favourite.value
     }
+
+    const checkIfFavourite = () => {
+      favourite.value = favouriteDrinks.value.find(d => d.idDrink === drink.value.idDrink)
+    }
+    
+    onMounted(() => {
+      checkIfFavourite()
+    })
 
     return {
       drink,

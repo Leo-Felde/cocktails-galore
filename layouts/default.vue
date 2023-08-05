@@ -5,9 +5,9 @@
       class="app-bar"
     >
       <div class="app-bar-content">
-        <span class="text-h6">
+        <span :class="mobile ? 'text-body-1' : 'text-h6'">
           Cocktails Galore
-          <v-icon> mdi-liquor </v-icon>
+          <v-icon v-if="!mobile"> mdi-liquor </v-icon>
         </span>
 
         <autocomplete-drink class="search" v-if="!mobile" />
@@ -15,9 +15,12 @@
         <div class="app-bar-content__actions">
           <v-menu>
             <template v-slot:activator="{ props }">
-              <span v-bind="props">
-                My favourites
-                <v-icon> mdi-chevron-down </v-icon>
+              <span
+                v-bind="props"
+                :class="mobile ? 'mr-2': 'mr-4'"
+              >
+                <v-icon size="small"> mdi-star </v-icon>
+                favourites
               </span>
             </template>
             <v-list>
@@ -25,9 +28,17 @@
                 v-for="(drink, index) in favouriteDrinks"
                 :key="index"
                 :value="index"
+                @click="goToFavourite(drink.idDrink)"
               >
                 <v-list-item-title>
-                  {{ drink.name }}
+                  {{ drink.strDrink }}
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item
+                v-if="favouriteDrinks.length < 1"
+              >
+                <v-list-item-title class="caption">
+                  No favourites found
                 </v-list-item-title>
               </v-list-item>
             </v-list>
@@ -52,14 +63,19 @@ export default {
   name: 'DefaultLayout',
 
   setup () {
-    const favouriteDrinks = ref([{name: 'beer'}])
     const theme = useTheme()
     const { mobile } = useDisplay()
+    const favouriteDrinks = useFavouriteDrinks()
+
+    const goToFavourite = (id: string) => {
+      navigateTo({path: `/drink-${id}`})
+    }
 
     return {
       theme,
       favouriteDrinks,
       mobile,
+      goToFavourite,
       toggleTheme: () => theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
     }
   }

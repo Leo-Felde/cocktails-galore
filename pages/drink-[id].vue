@@ -7,12 +7,6 @@
 import { ref, onMounted } from 'vue'
 import CocktailAPI from '~/api/CocktailsBD'
 
-interface Drink {
-    strDrink: string,
-    strDrinkThumb: string,
-    idDrink: string
-  }
-
 export default {
   setup() {
     const { id } = useRoute().params
