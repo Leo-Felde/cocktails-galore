@@ -28,7 +28,7 @@ export default {
 
   setup () {
     const drinksFound = ref([])
-    const selectedDrink = ref<string>('')
+    const selectedDrink = ref(null)
     const loading = ref(false)
     
     const searchForDrinks = async (test: string) => {

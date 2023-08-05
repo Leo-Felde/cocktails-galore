@@ -115,7 +115,7 @@ export default {
     }
 
     const toggleFavourite = (drink: Drink) => {
-      const drinkIndex =favouriteDrinks.value.findIndex(d => d.idDrink === drink.idDrink)
+      const drinkIndex = favouriteDrinks.value.findIndex(d => d.idDrink === drink.idDrink)
       if (drinkIndex >= 0) {
         favouriteDrinks.value.splice(drinkIndex, 1)
       } else {
