@@ -25,7 +25,7 @@
         />
 
         <div class="pa-4">
-          <span>
+          <span class="text-h5">
             Ingredients:
           </span>
             <v-row no-gutters>
@@ -54,7 +54,7 @@
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 
-interface Drink {
+interface DrinkDetails {
     strDrink: string,
     strDrinkThumb: string,
     strInstructions: string,
@@ -100,7 +100,7 @@ export default {
   name: 'DrinkDetails',
   
   props: {
-    data: { type: Object as () => Drink, required: true }
+    data: { type: Object as () => DrinkDetails, required: true }
   },
 
   setup (props) {
@@ -125,7 +125,6 @@ export default {
             name: drink.value[`strIngredient${i}`],
             measure: drink.value[`strMeasure${i}`]
           }
-          console.log(ingredient)
           ingredients.push(ingredient)
         }
       }

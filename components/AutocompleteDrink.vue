@@ -23,12 +23,6 @@ import { ref } from 'vue'
 
 import CocktailAPI from '~/api/CocktailsBD'
 
-interface Drink {
-  strDrink: string,
-  strDrinkThumb: string,
-  idDrink: string
-}
-
 export default {
   name: 'AutocompleteDrink',
 
@@ -56,7 +50,6 @@ export default {
     }
 
     const selectDrink = async () => {
-      console.log(selectedDrink.value)
       if (selectedDrink.value) {
         navigateTo({path: `/drink-${selectedDrink.value}`})
         selectedDrink.value = null
