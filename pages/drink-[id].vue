@@ -36,9 +36,9 @@ export default {
         const resp = await CocktailAPI.getById(id)
         
         drink.value = resp.data.drinks[0]
-        console.log(drink.value)
       } catch (error) {
         console.error('Error trying to get the drink:', error)
+        navigateTo({path: '/'})
         throw error
       } finally {
         loading.value = false

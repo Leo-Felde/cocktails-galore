@@ -1,15 +1,21 @@
 <template>
   <div>
-    <div class="d-flex justify-center pb-1 mb-1">
-      <v-btn
-        v-for="category in drinkCategories"
-        :key="category.value"
-        text
-        class="mx-1"
-        @click="getDrinksByCategory(category.value)"
-      >
-        {{  category.text }}
-      </v-btn>
+    <div class="d-flex justify-center pb-1 mb-1 actions">
+      <v-card class="wrapper">
+        <v-tabs
+          v-model="tab"
+          show-arrows
+          color="rgb(140, 48, 66)"
+          @update:modelValue="getDrinksByCategory"
+        >
+          <v-tab
+            v-for="category in drinkCategories"
+            :value="category.value"
+          >
+            {{ category.text }}
+          </v-tab>
+        </v-tabs>
+      </v-card>
     </div>
   
     <v-row
@@ -30,16 +36,20 @@
       </v-col>
     </v-row>
     <div v-else-if="loading">
-      <v-row justify="center">
+      <v-row
+        justify="center"
+        no-gutters
+      >
         <v-col
           v-for="i in 9"
           :key="i"
           lg="2"
           md="2"
           xs="12"
+          cols="9"
           class="mt-4 mx-2"
         >
-          <VSkeletonLoader height="300"/>
+          <VSkeletonLoader height="300" width="100%"/>
         </v-col>
       </v-row>
     </div>
@@ -51,9 +61,9 @@
 
 <script lang="ts">
 import { ref, onMounted } from 'vue'
-import CocktailAPI from '~/api/CocktailsBD'
 import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
+import CocktailAPI from '~/api/CocktailsBD'
 
 interface Drink {
     strDrink: string,
@@ -71,6 +81,7 @@ export default {
   setup () {
     const listedDrinks = ref(Array<Drink>)
     const loading = ref(true)
+    const tab = ref('Ordinary_Drink')
 
     const drinkCategories = ref([
       { text: 'Ordinary Drink', value: 'Ordinary_Drink' },
@@ -87,13 +98,13 @@ export default {
     ])
 
     onMounted(() => {
-      getDrinksByCategory(drinkCategories.value[0].value)
+      getDrinksByCategory()
     })
   
-    const getDrinksByCategory = async (category: string) => {
+    const getDrinksByCategory = async () => {
       try {
         loading.value = true
-        const resp = await CocktailAPI.searchByCategory(category)
+        const resp = await CocktailAPI.searchByCategory(tab.value)
 
         listedDrinks.value = resp.data.drinks
       } catch (error) {
@@ -112,6 +123,7 @@ export default {
       loading,
       listedDrinks,
       drinkCategories,
+      tab,
       getDrinksByCategory,
       viewDetails
     }
@@ -120,12 +132,17 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-:deep(  .v-skeleton-loader__bone.v-skeleton-loader__image)
-  height: 100% !important
+:deep(.v-skeleton-loader__bone.v-skeleton-loader__image)
+  width: 100%
+  height: 100%
 
 .drink-list
   max-height: calc(100vh - 108px)
   padding-bottom: 10px
   position: relative
   overflow: scroll
+
+.actions
+  max-width: 100vw
+  overflow: hidden
 </style>

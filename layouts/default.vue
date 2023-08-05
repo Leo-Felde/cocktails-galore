@@ -1,38 +1,40 @@
 <template>
   <v-app>
-    <v-app-bar
+    <v-card
       :color="theme.global.current.value.dark ? '#1a1a1a' : '#742232'"
-      prominent
-      class="pr-2 text-white"
+      class="app-bar"
     >
+      <div class="app-bar-content">
+        <span class="text-h6">
+          Cocktails Galore
+          <v-icon> mdi-liquor </v-icon>
+        </span>
 
-      <v-toolbar-title to="/" nuxt>
-        Cocktails Galore
-        <v-icon> mdi-liquor </v-icon>
-      </v-toolbar-title>
+        <v-spacer></v-spacer>
 
-      <v-spacer></v-spacer>
+        <v-menu>
+          <template v-slot:activator="{ props }">
+            <span v-bind="props">
+              My favourites
+              <v-icon> mdi-chevron-down </v-icon>
+            </span>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(drink, index) in favouriteDrinks"
+              :key="index"
+              :value="index"
+            >
+              <v-list-item-title>
+                {{ drink.name }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
 
-      <v-menu>
-        <template v-slot:activator="{ props }">
-          <span v-bind="props">
-            My favourites
-            <v-icon> mdi-chevron-down </v-icon>
-          </span>
-        </template>
-        <v-list>
-          <v-list-item
-            v-for="(drink, index) in favouriteDrinks"
-            :key="index"
-            :value="index"
-          >
-            <v-list-item-title>{{ drink.name }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-
-      <theme-button @toggleTheme="toggleTheme"/>
-    </v-app-bar>
+        <theme-button @toggleTheme="toggleTheme"/>
+      </div>
+    </v-card>
       
     <!-- aqui é renderizada a página atual -->
     <v-main>
@@ -59,3 +61,16 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.app-bar
+  display: flex
+  height: 54px
+  padding-left: 5px
+  color: #ffffff
+  border-radius: 0
+  &-content
+    margin-top: auto
+    margin-bottom: auto
+    flex-grow: 1
+</style>
