@@ -26,23 +26,7 @@
         xs="12"
         class="mt-4 mx-2"
       >
-        <v-card
-          class="mx-auto"
-          max-width="300"
-        >
-          <v-card-title>
-            {{ drink.strDrink }}
-          </v-card-title>
-          <v-card-text>
-            <v-img
-              :src="drink.strDrinkThumb"
-              lazy-src="https://www.oncrawl.com/wp-content/uploads/2019/04/A-lazy-loading-primer-for-crawlability-indexing-success250px.png"
-              aspect-ratio="1/1"
-              class="mx-auto"
-              width="250"
-              />
-          </v-card-text>
-        </v-card>
+        <DrinkOverview :data="drink" />
       </v-col>
     </v-row>
     <div v-else-if="loading">
@@ -71,7 +55,7 @@ import CocktailAPI from '~/api/CocktailsBD'
 import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 
-declare interface Drink {
+interface Drink {
     strDrink: string,
     strDrinkThumb: string,
     idDrink: string
