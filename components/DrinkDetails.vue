@@ -12,38 +12,48 @@
         />
         {{ data.strDrink }}
       </v-card-title>
-      <div 
-        class="d-flex px-4"
+      <div
+        class="d-flex content"
         :class="{ 'flex-column': mobile }"
-      >
-        <v-img
-          :src="drink.strDrinkThumb"
-          lazy-src="https://www.svgrepo.com/download/11140/picture.svg"
-          aspect-ratio="1/1"
-          class="mx-auto"
-          width="425"
-        />
-
-        <div class="pa-4">
-          <span class="text-h5">
-            Ingredients:
-          </span>
+       >
+        <div class="d-flex pa-4">
+          <v-img
+            :src="drink.strDrinkThumb"
+            lazy-src="https://www.svgrepo.com/download/11140/picture.svg"
+            aspect-ratio="1/1"
+            class="mx-auto"
+            :width="mobile ? 200 : 425"
+          />
+        </div>
+        <div class="pa-4 d-flex flex-column">
+          <div class="ingredients d-flex flex-column">
+            <span class="text-h5 text-center">
+              Ingredients
+            </span>
             <v-row no-gutters>
               <v-col
                 v-for="ingredient in ingredients"
                 md="6"
-                sm="8"
+                sm="2"
+                cols="6"
                 class="pa-0"
               >
                 <span> {{ ingredient.measure }} {{ ingredient.name }} </span>
               </v-col>
             </v-row>
-        </div>
-      </div>
-      <div class="mt-4 pa-4 instructions d-flex flex-column">
-        <span class="text-h5 text-center">Preparation:</span>
-        <div>
-          {{ drink.strInstructions || 'No english instructions avaliable' }}
+          </div>
+
+          <div
+            class="mt-4 pt-4 instructions d-flex flex-column"
+            :class="{'pb-12': mobile}"
+          >
+            <span class="text-h5 text-center">
+              Preparation
+            </span>
+            <div>
+              {{ drink.strInstructions || 'No english instructions avaliable' }}
+            </div>
+          </div>
         </div>
       </div>
     </v-card>
@@ -149,11 +159,14 @@ export default {
   max-width: 880px
   width: 100%
   &-mobile
-    max-width: 100vh
+    max-height: 100vh
     height: 100%
     max-width: 100vw
     width: 100%
     border-radius: 0
+    overflow: hidden
+    .content
+      overflow: scroll
 
 .instructions
   border-top: 1px solid #84848440
