@@ -10,23 +10,23 @@ interface Drink {
 }
 
 interface DrinkAPI {
+  getById(name: string): Promise<AxiosResponse<Drink[]>>
   searchByName(name: string): Promise<AxiosResponse<Drink[]>>
   searchByCategory(category: string): Promise<AxiosResponse<Drink[]>>
-  getAllAlcoholic(): Promise<AxiosResponse<Drink[]>>
   getRandomCocktail(): Promise<AxiosResponse<Drink[]>>
 }
 
 const methods: DrinkAPI = {
+  getById(id: string) {
+    return api.get<Drink[]>(`lookup.php?i=${id}`)
+  },
+
   searchByName(name: string) {
     return api.get<Drink[]>(`search.php?s=${name}`)
-},
+  },
 
   searchByCategory(category: string) {
     return api.get<Drink[]>(`filter.php?c=${category}`)
-  },
-
-  async getAllAlcoholic() {
-    return api.get<Drink[]>(`filter.php?a=Alcoholic`)
   },
 
   async getRandomCocktail() {

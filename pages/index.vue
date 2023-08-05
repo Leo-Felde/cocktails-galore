@@ -26,7 +26,7 @@
         xs="12"
         class="mt-4 mx-2"
       >
-        <DrinkOverview :data="drink" />
+        <DrinkOverview :data="drink" @click="viewDetails"/>
       </v-col>
     </v-row>
     <div v-else-if="loading">
@@ -104,11 +104,16 @@ export default {
       }
     }
 
+    const viewDetails = (id: string) => {
+      navigateTo({path: `/drink-${id}`})
+    }
+
     return {
       loading,
       listedDrinks,
       drinkCategories,
-      getDrinksByCategory
+      getDrinksByCategory,
+      viewDetails
     }
   }
 }

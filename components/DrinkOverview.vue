@@ -1,7 +1,8 @@
 <template>
   <v-card
-  class="mx-auto"
-  max-width="300"
+    class="mx-auto"
+    max-width="300"
+    @click="$emit('click', drink.idDrink)"
   >
     <v-card-title class="text-subtitle-1 d-flex">
       {{ drink.strDrink }}
@@ -44,7 +45,7 @@ export default {
     data: { type: Object as () => Drink, required: true }
   },
 
-  emits: ['toggleFavourite'],
+  emits: ['toggleFavourite', 'click'],
 
   setup (props: { data: Drink }, context) {
     const drink = computed(() => {
