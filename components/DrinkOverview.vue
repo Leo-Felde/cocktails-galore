@@ -3,6 +3,7 @@
     class="mx-auto"
     max-width="300"
     @click="$emit('click', drink.idDrink)"
+    elevation="4"
   >
     <v-card-title class="text-subtitle-1 d-flex">
       {{ drink.strDrink }}
