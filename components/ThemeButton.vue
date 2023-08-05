@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 
 export default {
   name: 'ThemeButton',
@@ -66,7 +66,7 @@ export default {
   emits: ['toggleTheme'],
 
   setup (_, { emit }) {
-    const themeDark = ref(false)
+    const themeDark = ref(true) // pegar isso de prop?
     const transitioning = ref(false)
 
     const toggleTheme = () => {
@@ -76,6 +76,14 @@ export default {
       themeDark.value = !themeDark.value
       emit('toggleTheme')
 
+      handleClassList()
+
+      setTimeout(() => {
+        transitioning.value = false
+      }, 1000)
+    }
+
+    const handleClassList = () => {
       const movingIconElement = document.getElementById('moving-icon')
       const gradientElement = document.getElementById('moving-gradient')
       const moonElement = document.getElementById('moon')
@@ -106,10 +114,11 @@ export default {
         cloudsElement.classList.remove('animate')
         starsElement.classList.remove('animate')
       }
-      setTimeout(() => {
-        transitioning.value = false
-      }, 1000);
     }
+
+    onBeforeMount(() => {
+      handleClassList()
+    })
 
     return {
       themeDark,
