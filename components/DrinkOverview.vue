@@ -18,7 +18,6 @@
     </v-card-title>
     <v-card-text>
       <v-img
-        v-if="drink.strDrinkThumb"
         :src="drink.strDrinkThumb"
         lazy-src="https://www.svgrepo.com/download/11140/picture.svg"
         aspect-ratio="1/1"

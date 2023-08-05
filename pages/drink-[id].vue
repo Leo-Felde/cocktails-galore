@@ -1,9 +1,6 @@
 
 <template>
-  <div>
-    <h1>Drink Details</h1>
-    <p>Drink ID: {{ id  }}</p>
-  </div>
+  <DrinkDetails :data="drink" />
 </template>
 
 <script lang="ts">
@@ -38,19 +35,18 @@ export default {
         loading.value = true
         const resp = await CocktailAPI.getById(id)
         
-        drink = resp.data.drinks[0]
-        console.log(drink)
+        drink.value = resp.data.drinks[0]
+        console.log(drink.value)
       } catch (error) {
         console.error('Error trying to get the drink:', error)
         throw error
       } finally {
-          loading.value = false
+        loading.value = false
       }
     }
     
-
     return {
-      id
+      drink
     }
   },
 }

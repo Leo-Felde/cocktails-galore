@@ -22,7 +22,7 @@
         v-for="drink in listedDrinks"
         :key="drink.idDrink"
         lg="2"
-        md="3"
+        md="2"
         xs="12"
         class="mt-4 mx-2"
       >
@@ -35,7 +35,7 @@
           v-for="i in 9"
           :key="i"
           lg="2"
-          md="3"
+          md="2"
           xs="12"
           class="mt-4 mx-2"
         >
