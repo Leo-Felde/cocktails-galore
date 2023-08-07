@@ -4,28 +4,22 @@ Neste projeto foram implementados alguns endpoints do [TheCocktailDB](https://ww
 As tecnologias utilizadas foram, Vue 3, Nuxt 3, TypeScript e Vuetify.
 ## Instalação
 
-Certifique-se de estar com a [ultima versão do Node.js](https://nodejs.org/en/download).\
-Instale as dependencias do projeto:
-
+Primeiro certifique-se de ter instalado a [ultima versão do Node.js](https://nodejs.org/en/download).\
+Depois instale as dependencias rodando o seguinte comandos em um terminal dentro da pasta do projeto:
 ```bash
-# npm
 npm install
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
 ```
 
-## Servidor de desenvolvimento
+## Rodar o projeto
 
-Iniciar o servidor de desenvolvimento no endereço `http://localhost:3000`
+Após instalar as dependencias, rode o seguinte comando em um terminal dentro da pasta do projeto:
 
 ```bash
-# npx nuxi dev
+npx nuxi dev
 
 ```
+Após alguns segundos o servidor poderá ser aberto em qualquer navegador pela url `localhost:3000`
 
 ## Decisões e outros comentários
 ### vuetify
