@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts">
-import { ref, onBeforeMount } from 'vue'
+import { ref, onMounted } from 'vue'
 
 export default {
   name: 'ThemeButton',
@@ -116,7 +116,7 @@ export default {
       }
     }
 
-    onBeforeMount(() => {
+    onMounted(() => {
       handleClassList()
     })
 
